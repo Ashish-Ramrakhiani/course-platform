@@ -1,49 +1,87 @@
-# Course Platform - Event-Driven Microservices Architecture
+# Course Platform - Event-Driven Microservices
 
-A comprehensive online learning platform demonstrating modern microservices architecture with event streaming, real-time analytics, and observability.
+An online learning platform demonstrating event-driven architecture with Spring Boot microservices, Apache Kafka messaging, and real-time monitoring with Prometheus and Grafana.
 
-## Architecture Overview
+![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.2-green?style=for-the-badge&logo=spring)
+![React](https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react)
+![Apache Kafka](https://img.shields.io/badge/Apache%20Kafka-latest-red?style=for-the-badge&logo=apache-kafka)
+![Prometheus](https://img.shields.io/badge/Prometheus-latest-orange?style=for-the-badge&logo=prometheus)
+![Grafana](https://img.shields.io/badge/Grafana-latest-yellow?style=for-the-badge&logo=grafana)
+
+## System Architecture
 
 ```
 [React Frontend] → [Producer Service] → [Kafka] → [Consumer Service] → [Prometheus] → [Grafana]
-     :3000            :8080                        :8082             :9090        :3000
+     :3001            :8081               :9092       :8082             :9090        :3001
 ```
 
-## Tech Stack
+## What This Project Demonstrates
 
-- **Frontend**: React 18 + Tailwind CSS
-- **Backend**: Spring Boot 3.2.2 + Java 21
-- **Messaging**: Apache Kafka
-- **Metrics**: Micrometer + Prometheus  
-- **Visualization**: Grafana
-- **Build**: Gradle + npm
+### Backend Development
+- **Spring Boot 3.2.2**: Modern Java web services with Spring Boot 3.x and Java 21
+- **RESTful API Design**: HTTP endpoints for handling course purchases and enrollments
+- **Event Publishing**: Kafka producer integration for publishing events to message queues
+- **Event Processing**: Kafka consumer that processes events and updates metrics
+- **JSON Processing**: Parsing event data and extracting business information
+
+### Event-Driven Architecture
+- **Apache Kafka Integration**: Producer-consumer pattern with event streaming
+- **Asynchronous Processing**: Decoupled services communicating through events
+- **Event Types**: Two distinct event types (`course_purchased`, `course_enrolled`)
+- **Message Serialization**: JSON event structure with metadata
+
+### Metrics and Monitoring
+- **Micrometer Integration**: Custom counter metrics for business events
+- **Prometheus Metrics**: Exposing application metrics via `/actuator/prometheus`
+- **Dimensional Metrics**: Counters with labels for course_id and enrollment_type
+- **Grafana Visualization**: Real-time dashboards showing purchase and enrollment data
+
+### Frontend Development
+- **React 18**: Modern functional components with hooks
+- **Responsive Design**: Professional UI with Tailwind CSS
+- **API Integration**: HTTP requests to backend services
+- **Real-time Interaction**: User actions trigger backend events
 
 ## Project Structure
 
 ```
 course-platform/
 ├── frontend/                 # React application
-├── producer-service/         # Event publisher service  
-├── consumer-service/         # Event processor + metrics
-├── monitoring/              # Prometheus configuration
-├── docker-compose.yml       # Infrastructure setup
+├── producer-service/         # HTTP API → Kafka publisher
+├── consumer-service/         # Kafka consumer → Metrics
+├── monitoring/              # Prometheus configuration  
+├── docker-compose.yml       # Kafka, Zookeeper, Prometheus, Grafana
 └── README.md
 ```
 
-## Features
+## Technical Implementation
 
-### Business Features
-- Course catalog with multiple courses
-- Purchase tracking with real-time analytics
-- Multiple enrollment types (purchase, free trial, audit)
-- Professional UI with responsive design
+### Event Flow
+1. User clicks course button in React frontend
+2. Frontend sends HTTP POST to producer service
+3. Producer service publishes event to Kafka topic `course-events`
+4. Consumer service processes event from Kafka
+5. Consumer increments Micrometer counters
+6. Prometheus scrapes metrics from consumer service
+7. Grafana displays real-time visualizations
 
-### Technical Features  
-- Event-driven architecture with Kafka messaging
-- Real-time metrics collection and visualization
-- Microservices with independent scaling
-- Complete observability stack (logs, metrics, dashboards)
-- Professional monitoring with Grafana dashboards
+### Event Structure
+```json
+{
+  "eventId": "uuid",
+  "eventType": "course_purchased" | "course_enrolled",
+  "timestamp": "2025-01-15T14:30:45.123Z",
+  "courseId": "java-fundamentals",
+  "userId": "user_123",
+  "price": 89.99,
+  "enrollmentType": "free-trial" | "audit"
+}
+```
+
+### Metrics Collected
+- `course_purchases_total{course_id}` - Counter for course purchases
+- `course_enrollments_total{course_id,enrollment_type}` - Counter for enrollments by type
 
 ## Quick Start
 
@@ -52,131 +90,119 @@ course-platform/
 - Node.js 18+
 - Docker & Docker Compose
 
-### 1. Start Infrastructure
+### Setup
 ```bash
+# 1. Clone repository
+git clone https://github.com/Ashish-Ramrakhiani/course-platform.git
+cd course-platform
+
+# 2. Start infrastructure (Kafka, Prometheus, Grafana)
 docker-compose up -d
-```
 
-### 2. Create Kafka Topic
-```bash
+# 3. Create Kafka topic
 docker exec -it kafka kafka-topics --create --topic course-events --bootstrap-server localhost:9092 --partitions 3 --replication-factor 1
-```
 
-### 3. Start Consumer Service
-```bash
+# 4. Start consumer service
 cd consumer-service
 ./gradlew bootRun
-```
 
-### 4. Start Producer Service  
-```bash
+# 5. Start producer service  
 cd producer-service
 ./gradlew bootRun
-```
 
-### 5. Start Frontend
-```bash
+# 6. Start frontend
 cd frontend
-npm install
-npm start
+npm install && npm start
 ```
 
-### 6. Access Applications
-- **Course Platform**: http://localhost:3000
-- **Prometheus**: http://localhost:9090  
-- **Grafana**: http://localhost:3001 (admin/admin)
+### Access Points
+- **Course Platform**: http://localhost:3001
+- **Prometheus**: http://localhost:9090
+- **Grafana**: http://localhost:3000 (admin/admin)
 
-## Usage
+## Demo & Screenshots
 
-1. **Generate Events**: Visit the course platform and interact with courses (buy, enroll)
-2. **View Metrics**: Check Prometheus for raw metrics
-3. **Analyze Data**: Use Grafana dashboards for visualizations
+### Application Interface
+*[Screenshot of course platform showing course catalog with Buy Now, Free Trial, and Audit Course buttons]*
 
-## Key Metrics
+### Real-time Analytics
+*[Screenshot of Grafana dashboard showing purchase and enrollment metrics]*
 
-- `course_purchases_total{course_id}` - Total purchases per course
-- `course_enrollments_total{course_id,enrollment_type}` - Enrollments by type
-- `event_processing_duration` - Consumer performance metrics
+### Live Demo Video
+*[Video showing complete user journey from clicking course buttons to seeing metrics update in Grafana]*
 
-## Grafana Dashboards
+## Technologies Used
 
-### Business Metrics
-- Total course purchases and enrollments
-- Popular courses analysis  
-- Enrollment type distribution
-- Revenue and conversion tracking
+### Backend
+- **Java 21**: Modern Java with latest language features
+- **Spring Boot 3.2.2**: Web framework with embedded Tomcat
+- **Spring Kafka**: Kafka integration for Spring Boot
+- **Micrometer**: Metrics collection library
+- **Jackson**: JSON processing for event serialization
 
-### Technical Metrics
-- Event processing performance
-- Kafka consumer lag
-- System health monitoring
+### Frontend  
+- **React 18**: UI library with functional components
+- **Tailwind CSS**: Utility-first CSS framework
+- **Modern JavaScript**: ES6+ features and async/await
 
-## Development
+### Infrastructure
+- **Apache Kafka**: Message broker for event streaming
+- **Prometheus**: Time-series database for metrics
+- **Grafana**: Visualization and dashboards
+- **Docker Compose**: Container orchestration
 
-### Adding New Metrics
-1. Update `EventConsumer.java` with new counters
-2. Generate events through frontend interactions  
-3. Create corresponding Grafana panels
+## Key Features Implemented
 
-### Scaling
-- **Producer**: Multiple instances behind load balancer
-- **Consumer**: Increase Kafka partitions + consumer instances  
-- **Frontend**: CDN + multiple replicas
+### Course Platform
+- Six different courses with realistic details
+- Professional UI design with course cards
+- Purchase tracking with price information
+- Multiple enrollment types (purchase, free trial, audit)
+- Real-time event generation from user interactions
 
-## Monitoring URLs
+### Event Processing
+- HTTP endpoints for purchases (`/api/events/buy`) and enrollments (`/api/events/enroll`)
+- Kafka message production with proper serialization
+- Consumer group configuration for message processing
+- Custom metrics creation with dimensional labels
 
-- **Consumer Health**: http://localhost:8082/actuator/health
-- **Producer Health**: http://localhost:8080/actuator/health  
-- **Metrics**: http://localhost:8082/actuator/prometheus
-- **Kafka**: localhost:9092
+### Monitoring Stack
+- Prometheus metrics scraping from Spring Boot Actuator
+- Grafana dashboards with multiple visualization types
+- Real-time metric updates (5-second refresh)
+- Business metrics (purchases, enrollments) and system metrics
 
-## Troubleshooting
+## Configuration
 
-### Common Issues
-1. **Port conflicts**: Ensure ports 3000, 8080, 8082, 9090, 3001 are free
-2. **Java version**: Requires Java 21+ for Spring Boot 3.x
-3. **Kafka connection**: Verify Kafka is running before starting services
+### Kafka Configuration
+- Topic: `course-events` with 3 partitions
+- Consumer group: `course-analytics-group`
+- Bootstrap servers: `localhost:9092`
 
-### Debug Commands
-```bash
-# Check service health
-curl http://localhost:8082/actuator/health
+### Service Ports
+- Frontend: 3000
+- Producer: 8080  
+- Consumer: 8082
+- Prometheus: 9090
+- Grafana: 3001
+- Kafka: 9092
 
-# View raw metrics  
-curl http://localhost:8082/actuator/prometheus | grep course
+## Learning Outcomes
 
-# Test Kafka topic
-docker exec -it kafka kafka-console-consumer --topic course-events --bootstrap-server localhost:9092
-```
+This project demonstrates:
+- Building microservices with Spring Boot
+- Implementing event-driven architecture with Kafka
+- Creating custom application metrics with Micrometer
+- Setting up monitoring with Prometheus and Grafana
+- Developing responsive frontends with React
+- Container orchestration with Docker Compose
+- Full-stack application development and deployment
 
-## Architecture Decisions
+## Repository Structure
 
-### Why Kafka?
-- Decouples producer and consumer services
-- Enables event replay and audit trails
-- Supports multiple consumers for same events
-- Provides durability and fault tolerance
-
-### Why Separate Services?
-- Independent scaling and deployment
-- Clear separation of concerns  
-- Technology diversity (different languages/frameworks possible)
-- Fault isolation
-
-### Why Prometheus + Grafana?
-- Industry standard monitoring stack
-- Rich visualization capabilities  
-- Alerting and SLA monitoring
-- Integration with cloud platforms
-
-## Contributing
-
-1. Fork the repository
-2. Create feature branch
-3. Add tests for new functionality
-4. Update documentation
-5. Submit pull request
-
-## License
-
-MIT License - see LICENSE file for details
+The codebase shows clean separation of concerns with:
+- Independent services that can be developed and deployed separately
+- Event-driven communication reducing tight coupling
+- Comprehensive monitoring for operational visibility
+- Modern technology stack with current versions
+- Professional code organization and documentation
