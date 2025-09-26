@@ -9,6 +9,22 @@ An online learning platform demonstrating event-driven architecture with Spring 
 ![Prometheus](https://img.shields.io/badge/Prometheus-latest-orange?style=for-the-badge&logo=prometheus)
 ![Grafana](https://img.shields.io/badge/Grafana-latest-yellow?style=for-the-badge&logo=grafana)
 
+## Demo & Screenshots
+
+### Application Interface
+<img width="1920" height="1047" alt="image" src="https://github.com/user-attachments/assets/c96796bd-cb49-4b9d-a9cc-cfd8c5ce1113" />
+
+### Real-time Analytics
+<img width="1920" height="1047" alt="image" src="https://github.com/user-attachments/assets/5ddf300a-9b2f-49e1-9c31-0e8d631bbb2e" />
+
+
+## Live Demo
+
+### System Walkthrough (~2 minutes)
+[![Course Platform Demo](https://img.youtube.com/vi/JjaF3d_KaBY/maxresdefault.jpg)](https://www.youtube.com/watch?v=JjaF3d_KaBY)
+
+*Click the image above to watch the full demo*
+
 ## System Architecture
 
 ```
@@ -119,23 +135,6 @@ npm install && npm start
 - **Course Platform**: http://localhost:3001
 - **Prometheus**: http://localhost:9090
 - **Grafana**: http://localhost:3000 (admin/admin)
-
-## Demo & Screenshots
-
-### Application Interface
-<img width="1920" height="1047" alt="image" src="https://github.com/user-attachments/assets/c96796bd-cb49-4b9d-a9cc-cfd8c5ce1113" />
-
-### Real-time Analytics
-<img width="1920" height="1047" alt="image" src="https://github.com/user-attachments/assets/5ddf300a-9b2f-49e1-9c31-0e8d631bbb2e" />
-
-
-## Live Demo
-
-### System Walkthrough (~2 minutes)
-[![Course Platform Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=JjaF3d_KaBY)
-
-*Click the image above to watch the full demo*
-
 
 ## Technologies Used
 
