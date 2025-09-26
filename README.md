@@ -123,13 +123,19 @@ npm install && npm start
 ## Demo & Screenshots
 
 ### Application Interface
-*[Screenshot of course platform showing course catalog with Buy Now, Free Trial, and Audit Course buttons]*
+<img width="1920" height="1047" alt="image" src="https://github.com/user-attachments/assets/c96796bd-cb49-4b9d-a9cc-cfd8c5ce1113" />
 
 ### Real-time Analytics
-*[Screenshot of Grafana dashboard showing purchase and enrollment metrics]*
+<img width="1920" height="1047" alt="image" src="https://github.com/user-attachments/assets/5ddf300a-9b2f-49e1-9c31-0e8d631bbb2e" />
 
-### Live Demo Video
-*[Video showing complete user journey from clicking course buttons to seeing metrics update in Grafana]*
+
+## Live Demo
+
+### System Walkthrough (~2 minutes)
+[![Course Platform Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=JjaF3d_KaBY)
+
+*Click the image above to watch the full demo*
+
 
 ## Technologies Used
 
